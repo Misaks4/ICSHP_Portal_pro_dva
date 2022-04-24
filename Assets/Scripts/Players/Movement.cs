@@ -2,36 +2,82 @@ using UnityEngine;
 
 public class Movement
 {
+    private readonly Animator animator;
     private readonly Collider2D collider2D;
-    private readonly float coyoteTimeIni;
+    private readonly float coyoteTime;
+    private readonly float fallLimit;
+    private readonly float paralyzed;
     private readonly LayerMask platformLayerMask;
-    private readonly float verticalTickIni;
+    private readonly Rigidbody2D rigidbody2D;
+    private readonly float verticalTick;
     private float coyoteCounter;
+    private float fallCounter;
+    private float paralyzedCounter;
     private float verticalTickCounter;
 
-    public Movement(Collider2D collider2D, LayerMask platformLayerMask, float moveVelocity,
-        float jumpVelocity, float coyoteTimeIni, float verticalTickIni)
+    public Movement(Collider2D collider2D, Rigidbody2D rigidbody2D, Animator animator, LayerMask platformLayerMask,
+        float moveVelocity,
+        float jumpVelocity, float coyoteTime, float verticalTick, float paralyzed, float fallLimit)
     {
         this.collider2D = collider2D;
+        this.rigidbody2D = rigidbody2D;
+        this.animator = animator;
         this.platformLayerMask = platformLayerMask;
-        this.verticalTickIni = verticalTickIni;
+        this.verticalTick = verticalTick;
+        this.paralyzed = paralyzed;
+        this.fallLimit = fallLimit;
 
-        this.coyoteTimeIni = coyoteTimeIni;
+        this.coyoteTime = coyoteTime;
         MoveVelocity = moveVelocity;
         JumpVelocity = jumpVelocity;
-        coyoteCounter = coyoteTimeIni;
+        coyoteCounter = coyoteTime;
+        fallCounter = fallLimit;
 
-        verticalTickCounter = 0;
-        Paralyzed = 0;
         LookEnum = LookEnum.Straight;
+        animator.SetInteger("look", (int) LookEnum);
     }
 
     public float JumpVelocity { get; }
     public float MoveVelocity { get; }
-    public float Paralyzed { get; set; }
     public LookEnum LookEnum { get; private set; }
 
-    public bool CoyoteJump
+    public bool IsParalyzed
+    {
+        get => paralyzedCounter > 0;
+        set
+        {
+            if (value)
+            {
+                paralyzedCounter = paralyzed;
+                return;
+            }
+
+            paralyzedCounter -= Time.deltaTime;
+        }
+    }
+
+    public bool IsFallInLimit
+    {
+        get => fallCounter <= 0;
+        set
+        {
+            if (value)
+            {
+                fallCounter = fallLimit;
+                return;
+            }
+
+            fallCounter -= Time.deltaTime;
+
+            if (fallCounter < 0)
+            {
+                rigidbody2D.bodyType = RigidbodyType2D.Static;
+                animator.SetBool("death", true);
+            }
+        }
+    }
+
+    public bool IsCoyoteJump
     {
         get => coyoteCounter > 0;
         set
@@ -43,7 +89,7 @@ public class Movement
             }
 
             if (IsGrounded)
-                coyoteCounter = coyoteTimeIni;
+                coyoteCounter = coyoteTime;
             else
                 coyoteCounter -= Time.deltaTime;
         }
@@ -53,31 +99,8 @@ public class Movement
     {
         get
         {
-            var hit2D = Physics2D.BoxCast(collider2D.bounds.center, collider2D.bounds.size, 0, Vector2.down, 0.01f,
-                platformLayerMask);
-            return hit2D.collider != null;
-        }
-    }
-
-    public bool IsLeftWall
-    {
-        get
-        {
-            var hit2D = Physics2D.BoxCast(collider2D.bounds.center, collider2D.bounds.size - new Vector3(0.01f, 0.01f),
-                0,
-                Vector2.left, 0.1f,
-                platformLayerMask);
-            return hit2D.collider != null;
-        }
-    }
-
-    public bool IsRightWall
-    {
-        get
-        {
-            var hit2D = Physics2D.BoxCast(collider2D.bounds.center, collider2D.bounds.size - new Vector3(0.01f, 0.01f),
-                0,
-                Vector2.right, 0.1f,
+            var hit2D = Physics2D.BoxCast(collider2D.bounds.center, collider2D.bounds.size - new Vector3(0.01f, 0f, 0f),
+                0, Vector2.down, 0.01f,
                 platformLayerMask);
             return hit2D.collider != null;
         }
@@ -93,21 +116,22 @@ public class Movement
         if (enumValue == 1 && verticalTickCounter < 0 || enumValue == 5 && verticalTickCounter > 0)
             verticalTickCounter = 0;
 
-        if (verticalTickCounter > verticalTickIni)
+        if (verticalTickCounter > verticalTick)
         {
             enumValue++;
-            verticalTickCounter = -verticalTickIni;
+            verticalTickCounter = -verticalTick;
         }
-        else if (verticalTickCounter < -verticalTickIni)
+        else if (verticalTickCounter < -verticalTick)
         {
             enumValue--;
-            verticalTickCounter = verticalTickIni;
+            verticalTickCounter = verticalTick;
         }
         else
         {
             return;
         }
 
+        animator.SetInteger("look", enumValue);
         LookEnum = (LookEnum) enumValue;
     }
 }

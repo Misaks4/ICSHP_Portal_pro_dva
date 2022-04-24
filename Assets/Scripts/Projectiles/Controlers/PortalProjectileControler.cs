@@ -2,13 +2,15 @@ using UnityEngine;
 
 public class PortalProjectileControler : MonoBehaviour
 {
-    [Header("Portal parameters")]
-    [SerializeField] private GameObject portal;
+    [Header("Portal parameters")] [SerializeField]
+    private GameObject portal;
+
     [SerializeField] private LayerMask portalHitLayerMask;
 
     private const float Speed = 20;
-    private const float Starvation = 0.5f;
+    private const float Starvation = 1f;
     private const float Range = 0.01f;
+    private const float PortalOffSet = -0.03f;
     private readonly Vector2 bounds = new Vector2(0.2f, 0.2f);
 
     private PortalProjectile portalProjectile;
@@ -17,7 +19,8 @@ public class PortalProjectileControler : MonoBehaviour
     private void Start()
     {
         portalProjectile =
-            new PortalProjectile(gameObject, portal, portalHitLayerMask, bounds, Range, Speed, Starvation);
+            new PortalProjectile(gameObject, portal, portalHitLayerMask, bounds, Range, PortalOffSet, Speed,
+                Starvation);
     }
 
     // Update is called once per frame

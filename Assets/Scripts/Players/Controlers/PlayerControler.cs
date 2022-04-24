@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerControler : MonoBehaviour
 {
@@ -10,9 +11,11 @@ public class PlayerControler : MonoBehaviour
     [SerializeField] private KeyBind keyBind;
 
     private const float MoveVelocity = 8f;
-    private const float JumpVelocity = 14f;
-    private const float CoyoteTimeIni = 0.25f;
-    private const float VerticalTickIni = 2f;
+    private const float JumpVelocity = 22f;
+    private const float CoyoteTime = 0.25f;
+    private const float VerticalTick = 0.5f;
+    private const float Paralyzed = 0.15f;
+    private const float FallLimit = 1f;
 
     private Player player;
 
@@ -20,8 +23,8 @@ public class PlayerControler : MonoBehaviour
     private void Start()
     {
         player = new Player(gameObject, keyBind
-            , new Movement(GetComponent<CapsuleCollider2D>(), LayerMask.GetMask("Platform"), MoveVelocity, JumpVelocity,
-                CoyoteTimeIni, VerticalTickIni)
+            , new Movement(GetComponent<CapsuleCollider2D>(), GetComponent<Rigidbody2D>(), GetComponent<Animator>(), LayerMask.GetMask("Platform"), MoveVelocity, JumpVelocity,
+                CoyoteTime, VerticalTick, Paralyzed, FallLimit)
             , new Projectile(fireProjectile, firePoint, FireProjectile));
     }
 
@@ -34,5 +37,10 @@ public class PlayerControler : MonoBehaviour
     private void FireProjectile(Vector2 direction)
     {
         fireProjectile.GetComponent<PortalProjectileControler>().FireProjectile(direction);
+    }
+
+    private void RestartLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

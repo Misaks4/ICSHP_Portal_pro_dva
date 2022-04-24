@@ -3,26 +3,29 @@ using UnityEngine;
 public class PortalProjectile
 {
     private readonly Vector2 bounds;
-    private readonly LayerMask portalHitLayerMask;
     private readonly Collider2D portalCollider2D;
+    private readonly LayerMask portalHitLayerMask;
     private readonly GameObject portalObject;
+    private readonly float portalOffSet;
     private readonly Collider2D projectileCollider2D;
     private readonly GameObject projectileObject;
     private readonly float range;
     private readonly float speed;
     private readonly float starvation;
-    
+
     private Vector2 direction;
     private bool hit;
     private float lifetime;
 
-    public PortalProjectile(GameObject projectileObject, GameObject portalObject, LayerMask portalHitLayerMask, Vector2 bounds, float range, float speed, float starvation)
+    public PortalProjectile(GameObject projectileObject, GameObject portalObject, LayerMask portalHitLayerMask,
+        Vector2 bounds, float range, float portalOffSet, float speed, float starvation)
     {
         this.projectileObject = projectileObject;
         this.portalObject = portalObject;
         this.portalHitLayerMask = portalHitLayerMask;
         this.bounds = bounds;
         this.range = range;
+        this.portalOffSet = portalOffSet;
         this.speed = speed;
         this.starvation = starvation;
 
@@ -55,6 +58,12 @@ public class PortalProjectile
     {
         lifetime = 0;
         this.direction = direction;
+
+        if (Physics2D.BoxCast(new Vector3(projectileCollider2D.transform.position.x,
+                    projectileCollider2D.transform.position.y, projectileCollider2D.transform.position.z),
+                bounds, 0, new Vector2(direction.x, direction.y), 0.1f,
+                portalHitLayerMask).collider != null)
+            return;
         projectileObject.SetActive(true);
         hit = false;
         projectileCollider2D.enabled = true;
@@ -81,9 +90,10 @@ public class PortalProjectile
                 projectileCollider2D.transform.position.z);
 
         float portalZAngle;
+        Vector3 portalPosition;
         try
         {
-            portalZAngle = GetPortalAngle();
+            portalZAngle = GetPortalAngle(out portalPosition);
         }
         catch (UnityException)
         {
@@ -94,7 +104,7 @@ public class PortalProjectile
         DeactivatePortal();
 
         portalObject.transform.eulerAngles = new Vector3(0f, 0.0f, portalZAngle);
-        portalObject.transform.position = projectileObject.transform.position;
+        portalObject.transform.position = portalPosition;
 
         portalCollider2D.enabled = true;
         portalObject.SetActive(true);
@@ -111,11 +121,15 @@ public class PortalProjectile
         return hit2D.collider != null;
     }
 
-    private float GetPortalAngle()
+    private float GetPortalAngle(out Vector3 portalPosition)
     {
         FitPortal(new Vector2(Mathf.Round(direction.x), Mathf.Round(direction.y)));
         if (Physics2D.BoxCast(projectileCollider2D.transform.position, bounds, 0, new Vector2(direction.x, 0),
                 range * 2, portalHitLayerMask).collider != null)
+        {
+            portalPosition = new Vector3(
+                projectileCollider2D.transform.position.x + Mathf.Sign(direction.x) * -portalOffSet,
+                projectileCollider2D.transform.position.y, projectileCollider2D.transform.position.z);
             switch (Mathf.Sign(direction.x))
             {
                 case 1:
@@ -123,9 +137,14 @@ public class PortalProjectile
                 case -1:
                     return 0;
             }
+        }
 
         if (Physics2D.BoxCast(projectileCollider2D.transform.position, bounds, 0, new Vector2(0, direction.y),
                 range * 2, portalHitLayerMask).collider != null)
+        {
+            portalPosition = new Vector3(projectileCollider2D.transform.position.x,
+                projectileCollider2D.transform.position.y + Mathf.Sign(direction.y) * -portalOffSet,
+                projectileCollider2D.transform.position.z);
             switch (Mathf.Sign(direction.y))
             {
                 case -1:
@@ -133,6 +152,8 @@ public class PortalProjectile
                 case 1:
                     return 270;
             }
+        }
+
 
         throw new UnityException("No collider found.");
     }
@@ -170,8 +191,10 @@ public class PortalProjectile
             xAbs = 0;
 
         if (yAbs == 0 && xAbs == 0) yAbs = Mathf.Abs(direction.y);
+        var max = 0;
         while (true)
         {
+            if (max++ == 50) throw new UnityException("Maximum number of iterations reached.");
             var leftDown = false;
             var rightUp = false;
             if (Physics2D.BoxCast(projectileCollider2D.transform.position, bounds, 0, new Vector2(-yAbs, -xAbs),

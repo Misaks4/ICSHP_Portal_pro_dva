@@ -24,13 +24,23 @@ public class Player
 
     public void Update()
     {
+        if (rigidbody.bodyType == RigidbodyType2D.Static)
+        {
+            return;
+        }
+
+        movement.IsCoyoteJump = false;
+        movement.IsFallInLimit = movement.IsGrounded;
+        if (movement.IsFallInLimit)
+        {
+            return;
+        }
+
         Move();
         Jump();
         if (Input.GetButtonUp(keyBind.Jump) && rigidbody.velocity.y > 0)
             rigidbody.velocity = new Vector2(rigidbody.velocity.x, rigidbody.velocity.y / 2);
         Fire();
-
-        movement.CoyoteJump = false;
     }
 
     private void Move()
@@ -38,7 +48,8 @@ public class Player
         if (rigidbody.isKinematic)
         {
             rigidbody.isKinematic = false;
-            movement.Paralyzed = 1f;
+            movement.IsParalyzed = true;
+            movement.IsFallInLimit = true;
         }
 
         movement.VerticalLook(Input.GetAxis(keyBind.Vertical));
@@ -50,38 +61,24 @@ public class Player
             transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y,
                 transform.localScale.z);
 
-        if (movement.Paralyzed > 0)
+        if (movement.IsParalyzed)
         {
-            if (!movement.IsGrounded) return;
-            movement.Paralyzed -= Time.deltaTime;
+            if (transform.eulerAngles != Vector3.zero && !movement.IsGrounded) return;
+            movement.IsParalyzed = false;
             return;
         }
 
         transform.eulerAngles = Vector3.zero;
-        /*
-        if (horizontalInput > 0)
-        {
-        //    if (movement.IsRightWall) return;
-        }
-        else if (horizontalInput < 0)
-        {
-        //    if (movement.IsLeftWall) return;
-        }
-        */
         rigidbody.velocity = new Vector2(horizontalInput * movement.MoveVelocity, rigidbody.velocity.y);
     }
 
     private void Jump()
     {
-        if (!Input.GetButtonDown(keyBind.Jump) || !movement.CoyoteJump) return;
-        if (movement.IsGrounded)
+        if (!Input.GetButtonDown(keyBind.Jump) || !movement.IsCoyoteJump) return;
+        if (movement.IsGrounded || movement.IsCoyoteJump)
         {
             rigidbody.velocity = new Vector2(rigidbody.velocity.x, movement.JumpVelocity);
-        }
-        else if (movement.CoyoteJump)
-        {
-            rigidbody.velocity = new Vector2(rigidbody.velocity.x, movement.JumpVelocity);
-            movement.CoyoteJump = true;
+            movement.IsCoyoteJump = true;
         }
     }
 
@@ -121,5 +118,10 @@ public class Player
         }
 
         portalProjectile.CooldownTimer += Time.deltaTime;
+    }
+
+    public void Death()
+    {
+       
     }
 }

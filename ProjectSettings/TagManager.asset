@@ -18,7 +18,7 @@ TagManager:
   - Platform
   - Player
   - Portal
-  - 
+  - CheckPoint
   - 
   - 
   - 
@@ -42,6 +42,27 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 1155126317
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Projectile
+    uniqueID: 1892173917
+    locked: 0
+  - name: CheckPoint
+    uniqueID: 2088022601
+    locked: 0
+  - name: Player
+    uniqueID: 2023767175
+    locked: 0
+  - name: Portal
+    uniqueID: 4255220157
+    locked: 0
+  - name: Platform
+    uniqueID: 1131370737
+    locked: 0
+  - name: UI
+    uniqueID: 2994260461
     locked: 0
