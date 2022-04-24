@@ -6,7 +6,7 @@ public class GameCameraControler : MonoBehaviour
     [SerializeField] private Text versionText;
     public void Awake()
     {
-        versionText.text = $"V{GameInfo.Version}";
+        versionText.text = $"{GameInfo.Version}-alpha";
         Saves.ReadSaves();
         HighScores.ReadScores();
     }

@@ -1,7 +1,7 @@
 Youtube tutoriál na základy tvorby her v UNITY - https://www.youtube.com/watch?v=TcranVQUQ5U&list=PLgOEwFbvGm5o8hayFB6skAfa8Z-mw4dPV, https://github.com/nickbota/Unity-Platformer-Episode-13
 Kód zobrazení FPS /Assets/Scripts/UI/FPS/* - https://www.youtube.com/watch?v=xOCScMQIxrU
 Kód Saves.cs a HighScores.cs /Assets/Scripts/Game/* metody Serialize() a Deserialize() - https://stuartspixelgames.com/2020/07/26/how-to-do-easy-saving-loading-with-binary-unity-c/
-Grafika /Assets/Textures/Own/* - vlastní tvorba
+Grafika /Assets/Textures/Own/* - vlastní tvorba	
 Grafika /Assets/Textures/Hand Painted Seamless Tiles Texture/* - Standard Unity Asset Store EULA (https://unity3d.com/legal/as_terms), https://assetstore.unity.com/packages/2d/textures-materials/tiles/hand-painted-seamless-tiles-texture-vol-5-162143
 Grafika /Assets/Textures/Hand Painted textures/* - Standard Unity Asset Store EULA (https://unity3d.com/legal/as_terms), https://assetstore.unity.com/packages/2d/textures-materials/tiles/seamless-hand-drawn-textures-90760
 Grafika /Assets/Textures/Bolt 2D LittleWars VE3/* - Standard Unity Asset Store EULA (https://unity3d.com/legal/as_terms), https://assetstore.unity.com/packages/2d/characters/bolt-2d-littlewars-assets-pack-189896#content

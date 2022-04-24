@@ -15,7 +15,6 @@ public class PortalProjectileControler : MonoBehaviour
 
     private PortalProjectile portalProjectile;
 
-    // Start is called before the first frame update
     private void Start()
     {
         portalProjectile =
@@ -23,7 +22,6 @@ public class PortalProjectileControler : MonoBehaviour
                 Starvation);
     }
 
-    // Update is called once per frame
     private void Update()
     {
         portalProjectile.Update();

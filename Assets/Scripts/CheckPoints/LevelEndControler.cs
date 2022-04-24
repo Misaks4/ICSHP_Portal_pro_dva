@@ -29,7 +29,7 @@ public class LevelEndControler : MonoBehaviour
     private void LoadNextLevel()
     {
         Saves.GameSaves[GameInfo.GameSaveSlot].Level =
-            SceneManager.GetActiveScene().buildIndex - GameInfo.LevelIndex + 2;
+            (SceneManager.GetActiveScene().buildIndex - GameInfo.LevelIndex + 2) % 4;
         Saves.WriteSave();
         SceneManager.LoadScene((SceneManager.GetActiveScene().buildIndex + 1) % SceneManager.sceneCountInBuildSettings);
     }

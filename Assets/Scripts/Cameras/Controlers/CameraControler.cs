@@ -8,14 +8,12 @@ public class CameraControler : MonoBehaviour
 
     private Vector3 velocity = Vector3.zero;
 
-
     private void Awake()
     {
         QualitySettings.vSyncCount = 1;
         Application.targetFrameRate = 60;
     }
 
-    // Update is called once per frame
     private void Update()
     {
         var tPositionX = 0f;

@@ -17,11 +17,6 @@ public class KeyBind
         this.fire = fire;
     }
 
-    public KeyBind()
-    {
-
-    }
-
     public string Horizontal => horizontal;
     public string Vertical => vertical;
     public string Jump => jump;

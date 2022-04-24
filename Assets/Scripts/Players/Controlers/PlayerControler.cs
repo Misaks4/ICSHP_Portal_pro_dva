@@ -19,7 +19,6 @@ public class PlayerControler : MonoBehaviour
 
     private Player player;
 
-    // Start is called before the first frame update
     private void Start()
     {
         player = new Player(gameObject, keyBind
@@ -28,7 +27,6 @@ public class PlayerControler : MonoBehaviour
             , new Projectile(fireProjectile, firePoint, FireProjectile));
     }
 
-    // Update is called once per frame
     private void Update()
     {
         player.Update();

@@ -10,7 +10,6 @@ public class PortalControler : MonoBehaviour
 
     private Portal portal;
 
-    // Start is called before the first frame update
     private void Start()
     {
         portal = new Portal(gameObject, secondPortal, secondPortalPoint, Force);

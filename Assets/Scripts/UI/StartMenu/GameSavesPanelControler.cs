@@ -10,14 +10,6 @@ public class GameSavesPanelControler : MonoBehaviour
     [SerializeField] private Text[] saveSlotsTexts;
     private bool isNewGame;
 
-    private void Start()
-    {
-    }
-
-    private void Update()
-    {
-    }
-
     public void ShowPanel(bool isNewGame)
     {
         this.isNewGame = isNewGame;
