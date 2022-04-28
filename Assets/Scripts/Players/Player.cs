@@ -119,9 +119,4 @@ public class Player
 
         portalProjectile.CooldownTimer += Time.deltaTime;
     }
-
-    public void Death()
-    {
-       
-    }
 }

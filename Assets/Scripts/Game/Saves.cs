@@ -34,9 +34,9 @@ public class Saves
         {
             new BinaryFormatter().Serialize(dataStream, GameSaves[Game.GameSaveSlot]);
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            // ignored
+            Log.LogError("Saves.cs/Serialize()", e);
         }
 
         dataStream.Close();
@@ -49,9 +49,9 @@ public class Saves
         {
             GameSaves[i] = new BinaryFormatter().Deserialize(dataStream) as Save;
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            // ignored
+            Log.LogError($"Saves.cs/Deserialize({i})", e);
         }
 
         dataStream.Close();

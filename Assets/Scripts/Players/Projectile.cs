@@ -19,7 +19,7 @@ public class Projectile
     public float CooldownTimer { get; set; }
     public GameObject ProjectileObject { get; }
     public Transform FirePoint { get; }
-    public Animator Animator { get; }
+
     public event FireProjectileEventHandler FireProjectileEvent;
 
     public void FireProjectile(Vector2 direction)

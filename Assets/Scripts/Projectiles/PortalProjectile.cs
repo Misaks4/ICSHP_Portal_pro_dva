@@ -95,9 +95,9 @@ public class PortalProjectile
         {
             portalZAngle = GetPortalAngle(out portalPosition);
         }
-        catch (UnityException)
+        catch (UnityException e)
         {
-            //Debug.Log(e.Message);
+            Log.LogError("PortalProjectile.cs/CreatePortal()", e);
             return;
         }
 
@@ -194,7 +194,7 @@ public class PortalProjectile
         var max = 0;
         while (true)
         {
-            if (max++ == 50) throw new UnityException("Maximum number of iterations reached.");
+            if (max++ == 60) throw new UnityException("Maximum number of iterations reached.");
             var leftDown = false;
             var rightUp = false;
             if (Physics2D.BoxCast(projectileCollider2D.transform.position, bounds, 0, new Vector2(-yAbs, -xAbs),

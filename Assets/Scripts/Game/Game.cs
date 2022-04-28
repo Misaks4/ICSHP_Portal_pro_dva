@@ -3,7 +3,7 @@ using System.IO;
 
 public static class Game
 {
-    public static string Version => "0.22";
+    public static string Version => "0.23";
     public static string HighScoreFile => "highScore";
     public static string BinaryDirectory => "bin";
     public static int LevelIndex => 2;

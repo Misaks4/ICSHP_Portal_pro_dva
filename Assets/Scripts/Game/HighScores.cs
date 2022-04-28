@@ -46,9 +46,9 @@ public static class HighScores
         {
             new BinaryFormatter().Serialize(dataStream, Levels);
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            // ignored
+            Log.LogError("HighScores.cs/Serialize()",e);
         }
 
         dataStream.Close();
@@ -62,9 +62,9 @@ public static class HighScores
         {
             Levels = new BinaryFormatter().Deserialize(dataStream) as List<Level>;
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            // ignored
+            Log.LogError("HighScores.cs/Deserialize()", e);
         }
 
         dataStream.Close();
