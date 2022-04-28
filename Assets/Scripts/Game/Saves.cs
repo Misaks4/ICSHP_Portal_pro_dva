@@ -14,8 +14,8 @@ public class Saves
 
         GameSaves = new Save[GameSavesCount];
         for (var i = 0; i < GameSavesCount; i++) GameSaves[i] = new Save();
-        foreach (var save in GameSaves) save.Level = 0;
-        GameInfo.CreateBinaryDirectory();
+        foreach (var save in GameSaves) save.LevelName = 0;
+        Game.CreateBinaryDirectory();
         for (var i = 0; i < GameSavesCount; i++) Deserialize(i);
 
         isLoaded = true;
@@ -28,11 +28,11 @@ public class Saves
 
     private static void Serialize()
     {
-        var dataStream = new FileStream($"{GameInfo.BinaryDirectory}/saveSlot{GameInfo.GameSaveSlot}.data",
+        var dataStream = new FileStream($"{Game.BinaryDirectory}/saveSlot{Game.GameSaveSlot}",
             FileMode.Create);
         try
         {
-            new BinaryFormatter().Serialize(dataStream, GameSaves[GameInfo.GameSaveSlot]);
+            new BinaryFormatter().Serialize(dataStream, GameSaves[Game.GameSaveSlot]);
         }
         catch (Exception)
         {
@@ -44,7 +44,7 @@ public class Saves
 
     private static void Deserialize(int i)
     {
-        var dataStream = new FileStream($"{GameInfo.BinaryDirectory}/saveSlot{i}.data", FileMode.OpenOrCreate);
+        var dataStream = new FileStream($"{Game.BinaryDirectory}/saveSlot{i}", FileMode.OpenOrCreate);
         try
         {
             GameSaves[i] = new BinaryFormatter().Deserialize(dataStream) as Save;

@@ -8,19 +8,19 @@ public class TimerControler : MonoBehaviour
     [SerializeField] private TextMeshProUGUI bigTimer;
 
     private bool isRunning = true;
-    private float time;
+    public float Time { get; set; }
 
     public void Update()
     {
         if (!isRunning) return;
-        time += Time.deltaTime;
-        smallTimer.text = TimeSpan.FromSeconds(time).ToString("g");
+        Time += UnityEngine.Time.deltaTime;
+        smallTimer.text = TimeSpan.FromSeconds(Time).ToString("g");
     }
 
     public TimeSpan Stop()
     {
         isRunning = false;
-        var elapsed = TimeSpan.FromSeconds(time);
+        var elapsed = TimeSpan.FromSeconds(Time);
         smallTimer.text = elapsed.ToString("g");
         bigTimer.text = $"Level dokonèen {elapsed:g}";
         return elapsed;

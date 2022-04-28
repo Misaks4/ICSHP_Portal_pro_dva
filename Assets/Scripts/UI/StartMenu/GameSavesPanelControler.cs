@@ -33,28 +33,28 @@ public class GameSavesPanelControler : MonoBehaviour
 
     private void NewGame(int i)
     {
-        GameInfo.Player1 = player1InputField.text == ""
+        Game.IsNewLevel = true;
+        Game.Player1 = player1InputField.text == ""
             ? player1InputField.placeholder.GetComponent<Text>().text
             : player1InputField.text;
-        GameInfo.Player2 = player2InputField.text == ""
+        Game.Player2 = player2InputField.text == ""
             ? player2InputField.placeholder.GetComponent<Text>().text
             : player2InputField.text;
 
-        Saves.GameSaves[i].Level = 1;
-        Saves.GameSaves[i].Player1 = GameInfo.Player1;
-        Saves.GameSaves[i].Player2 = GameInfo.Player2;
-        GameInfo.GameSaveSlot = i;
-        Saves.WriteSave();
-        SceneManager.LoadScene(GameInfo.LevelIndex);
+        Saves.GameSaves[i].LevelName = 1;
+        Saves.GameSaves[i].Player1Name = Game.Player1;
+        Saves.GameSaves[i].Player2Name = Game.Player2;
+        Game.GameSaveSlot = i;
+        SceneManager.LoadScene(Game.LevelIndex);
     }
 
     private void LoadGame(int i)
     {
-        if (Saves.GameSaves[i].Level <= 0) return;
-        GameInfo.Player1 = Saves.GameSaves[i].Player1;
-        GameInfo.Player2 = Saves.GameSaves[i].Player2;
-        GameInfo.GameSaveSlot = i;
-        SceneManager.LoadScene(Saves.GameSaves[i].Level - 1 + GameInfo.LevelIndex);
+        if (Saves.GameSaves[i].LevelName <= 0) return;
+        Game.Player1 = Saves.GameSaves[i].Player1Name;
+        Game.Player2 = Saves.GameSaves[i].Player2Name;
+        Game.GameSaveSlot = i;
+        SceneManager.LoadScene(Saves.GameSaves[i].LevelName - 1 + Game.LevelIndex);
     }
 
     private void ShowPanel()
@@ -62,9 +62,9 @@ public class GameSavesPanelControler : MonoBehaviour
         for (var i = 0; i < Mathf.Min(saveSlotsTexts.Length, Saves.GameSaves.Length); i++)
         {
             var textStr = "";
-            if (Saves.GameSaves[i].Level > 0)
+            if (Saves.GameSaves[i].LevelName > 0)
                 textStr +=
-                    $"Úroveò {Saves.GameSaves[i].Level}\n {Saves.GameSaves[i].Player1} a {Saves.GameSaves[i].Player2}";
+                    $"Úroveò {Saves.GameSaves[i].LevelName}\n {Saves.GameSaves[i].Player1Name} a {Saves.GameSaves[i].Player2Name}";
             else
                 textStr += "Prázdný slot";
 

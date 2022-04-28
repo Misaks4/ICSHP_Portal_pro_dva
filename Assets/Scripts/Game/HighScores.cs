@@ -40,7 +40,7 @@ public static class HighScores
 
     private static void Serialize()
     {
-        var dataStream = new FileStream($"{GameInfo.BinaryDirectory}/{GameInfo.HighScoreFile}.data",
+        var dataStream = new FileStream($"{Game.BinaryDirectory}/{Game.HighScoreFile}",
             FileMode.Create);
         try
         {
@@ -56,7 +56,7 @@ public static class HighScores
 
     private static void Deserialize()
     {
-        var dataStream = new FileStream($"{GameInfo.BinaryDirectory}/{GameInfo.HighScoreFile}.data",
+        var dataStream = new FileStream($"{Game.BinaryDirectory}/{Game.HighScoreFile}",
             FileMode.OpenOrCreate);
         try
         {

@@ -16,21 +16,18 @@ public class LevelEndControler : MonoBehaviour
         if (players.Count != 2) return;
         var score = new Score
         {
-            Player1 = GameInfo.Player1,
-            Player2 = GameInfo.Player2,
+            Player1 = Game.Player1,
+            Player2 = Game.Player2,
             Time = timerControler.Stop()
         };
-        HighScores.AddScore(SceneManager.GetActiveScene().buildIndex - GameInfo.LevelIndex,
+        HighScores.AddScore(SceneManager.GetActiveScene().buildIndex - Game.LevelIndex,
             score);
-
         Invoke(nameof(LoadNextLevel), 2f);
     }
 
     private void LoadNextLevel()
     {
-        Saves.GameSaves[GameInfo.GameSaveSlot].Level =
-            (SceneManager.GetActiveScene().buildIndex - GameInfo.LevelIndex + 2) % 4;
-        Saves.WriteSave();
+        Game.IsNewLevel = true;
         SceneManager.LoadScene((SceneManager.GetActiveScene().buildIndex + 1) % SceneManager.sceneCountInBuildSettings);
     }
 }

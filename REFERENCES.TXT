@@ -1,7 +1,10 @@
 Youtube tutoriál na základy tvorby her v UNITY - https://www.youtube.com/watch?v=TcranVQUQ5U&list=PLgOEwFbvGm5o8hayFB6skAfa8Z-mw4dPV, https://github.com/nickbota/Unity-Platformer-Episode-13
 Kód zobrazení FPS /Assets/Scripts/UI/FPS/* - https://www.youtube.com/watch?v=xOCScMQIxrU
 Kód Saves.cs a HighScores.cs /Assets/Scripts/Game/* metody Serialize() a Deserialize() - https://stuartspixelgames.com/2020/07/26/how-to-do-easy-saving-loading-with-binary-unity-c/
+Kód SerializableVector3.cs /Assets/Scripts/Game/Save/SavedObject/SerializableVector3.cs - https://answers.unity.com/questions/956047/serialize-quaternion-or-vector3.html
 Grafika /Assets/Textures/Own/* - vlastní tvorba	
 Grafika /Assets/Textures/Hand Painted Seamless Tiles Texture/* - Standard Unity Asset Store EULA (https://unity3d.com/legal/as_terms), https://assetstore.unity.com/packages/2d/textures-materials/tiles/hand-painted-seamless-tiles-texture-vol-5-162143
 Grafika /Assets/Textures/Hand Painted textures/* - Standard Unity Asset Store EULA (https://unity3d.com/legal/as_terms), https://assetstore.unity.com/packages/2d/textures-materials/tiles/seamless-hand-drawn-textures-90760
 Grafika /Assets/Textures/Bolt 2D LittleWars VE3/* - Standard Unity Asset Store EULA (https://unity3d.com/legal/as_terms), https://assetstore.unity.com/packages/2d/characters/bolt-2d-littlewars-assets-pack-189896#content
+TextMesh Pro /Assets/TextMesh Pro/* - Unity Companion License (https://unity3d.com/legal/licenses/Unity_Companion_License?_ga=2.226651550.206721100.1651131630-1758564131.1645729197), https://docs.unity3d.com/Packages/com.unity.textmeshpro@3.2/license/LICENSE.html
+Font LiberationSans /Assets/TextMesh Pro/Fonts/* - SIL Open Font License (https://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL), /Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt
